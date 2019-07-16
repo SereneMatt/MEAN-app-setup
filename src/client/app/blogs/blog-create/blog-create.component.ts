@@ -8,9 +8,4 @@ import { Component } from '@angular/core';
 export class BlogCreateComponent {
   enteredValue = '';
   newBlog = 'Nothing written';
-
-  onAddBlog(blogInput: HTMLTextAreaElement) {
-    console.dir(blogInput);
-    this.newBlog = this.enteredValue;
-  }
 }
