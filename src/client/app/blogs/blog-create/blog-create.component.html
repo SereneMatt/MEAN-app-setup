@@ -1,10 +1,26 @@
-<mat-card>
-  <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="enteredValue"></textarea>
-  </mat-form-field>
-  <button
-    mat-raised-button
-    color="accent">Save Blog
-  </button>
-</mat-card>
-<p>{{ newBlog }}</p>
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="postForm" novalidate>
+      <div class="form-group">
+        <label class="col-md-4">Title</label>
+        <input type="text" class="form-control" formControlName="title" />
+      </div>
+      <div *ngIf="postForm.controls['title'].invalid && (postForm.controls['title'].dirty || postForm.controls['title'].touched)" class="alert alert-danger">
+        <div *ngIf="postForm.controls['title'].errors.required">
+          Title is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4">Content</label>
+        <textarea class="form-control" formControlName="content" rows = 7 cols = "5"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="col-md-4">Minutes to read</label>
+        <input type="text" formControlName="time" class="form-control" />
+      </div>
+      <div class="form-group">
+        <button (click)="onCreate()" type="submit" class="btn btn-primary" class="btn btn-primary">Create Blog</button>
+      </div>
+    </form>
+  </div>
+</div>
