@@ -12,5 +12,9 @@ cache:
 install:
   - npm install
 
+after_install:
+  - echo $TRAVIS_PULL_REQUEST
+  - export TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
+
 script:
   - npm run lint
