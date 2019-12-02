@@ -14,7 +14,9 @@ install:
 
 before_script:
   - echo TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST TRAVIS_BRANCH=$TRAVIS_BRANCH
-  - echo $TRAVIS_PULL_REQUEST != "false" -a TRAVIS_BRANCH == master
+  - if [ $TRAVIS_PULL_REQUEST == "false" -a $TRAVIS_BRANCH == "master" ]
+      echo "yay!!"
+    fi
 
 script:
   - npm run lint
