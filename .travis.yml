@@ -1,6 +1,9 @@
 dist: trusty
 sudo: false
 language: node_js
+
+before_install:
+  - chmod +x .travis/rollbar
 install:
 - npm install
 cache:
