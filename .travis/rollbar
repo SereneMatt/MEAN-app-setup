@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# ROLLBAR_ACCESS_TOKEN is set in Travis -> Settings
 function start_deployment() {
   deploy_id="$(curl --request POST --url https://api.rollbar.com/api/1/deploy/ --data '{"access_token": "'"${ROLLBAR_ACCESS_TOKEN}"'", "environment": "'"${DEPLOY_ENV}"'", "revision": "'"${TRAVIS_COMMIT}"'", "comment": "Deployment started in '"${DEPLOYENV}"' for '"${APPLICATION_NAME}"'", "status": "started", "local_username": "'"${AUTHOR_NAME}"'"}' | python -c 'import json, sys; obj = json.load(sys.stdin); print obj["data"]["deploy_id"]')"
   echo "$deploy_id" >> ~/deploy_id_from_rollbar
