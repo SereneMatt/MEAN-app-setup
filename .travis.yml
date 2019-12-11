@@ -1,22 +1,21 @@
 dist: trusty
 sudo: false
-
 language: node_js
-
-install: npm install
-
+install:
+- npm install
 cache:
   directories:
-    - ./node_modules
-
-install:
-  - npm install
-
+  - "./node_modules"
 before_script:
-  - echo TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST TRAVIS_BRANCH=$TRAVIS_BRANCH
-  - if [ $TRAVIS_PULL_REQUEST == "false" -a $TRAVIS_BRANCH == "master" ]
-      echo "yay!!"
-    fi
-
+  - export DEPLOY_ENV=development
+  - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - .travis/rollbar started
+  - export DEPLOY_ID="$(while read -r line; do echo "$line"; done < ~/deploy_id_from_rollbar)"
 script:
-  - npm run lint
+- npm run lint
+env:
+  global:
+    secure: I6h9rZJMrRMzQodT7UifrdjgdqyKaffWkaclv6bfvOI8078qzxojx3PLZdx3L9IjDd178W0lOS20NGH24nbhwHzJY17lp7RVL01I7x1270gQHDAE4bSM8PdoS/IcHyop2CPTw1eV1XhWmq8ALml9n+K5PWLgb7yNALvmbdALVP2jk0UGVrvcmcvY9wfTjOX066cRcWdPxB7dCdxCOYcXlgS6ost6LVidSYPJ9V+YB+CIzcCnVTF1SNtbgtPjHzzx9MSUJXVGjkDoVPMXT2v8itzWkA4wnKpjpULM04bVotIcufaReVrvPRG1VflQxQFqGSeEvI2m3TM6sp06T5AXfdYKCMPQAA6sptyg9Dq9OafNK3b1Nf6S4UHFJ7bqoUYA308ymINju+WNtuQl63coUs0LcUwyFcCGVfSQOfRTTMHUzgd2V1ham+3hs6olL/IZIYgD1IStWLGPF+Vq+Tu5ilXWs+BvEaJS5+mWtRKrUVbGmMBvqFBAmCUSa/q9T5RI8lU4r5X8lWfaaJnMiUE0Ov4jNeNGqRekATyBI2RNPM1TMv/4aWAYDPg7uoD/ui4PLiV+1aGK3ejbi/N2jUOSqCsaNaQO6N5aJfuwXEo3SDDZ/R1XV53v1p41N/RiYu6V5RONkYUjIr2h41y1qTqEmKs3SZ33WkJbBVYZMBkPUmQ=
+
+after_script:
+  .travis/rollbar succeeded
